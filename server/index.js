@@ -18,7 +18,6 @@ app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('Hi There')
-  // console.log('hit')
 });
 
 // get all of the books in the database
