@@ -10,15 +10,15 @@ const db = mysql.createPool({
 })
 
 const app = express()
+const port = 4005;
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-    origin: '*'
-}))
+app.use(cors())
 
 app.get('/', (req, res) => {
-	res.send('Welcome to SQL');
+  res.send('Hi There')
+  // console.log('hit')
 });
 
 // get all of the books in the database
@@ -56,6 +56,6 @@ app.put("/update/:bookId", (req, res) => {
     db.query(UpdateQuery, [bookReview, bookId], (err, result) => {
       if (err) console.log(err)
     })
-  })
+})
 
-  app.listen('4000', () =>  {console.log(`listening on port 4000`)})
+app.listen(port, () =>  {console.log(`listening on ${port}`)})
