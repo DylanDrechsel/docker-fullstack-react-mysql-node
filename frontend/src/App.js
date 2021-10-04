@@ -9,16 +9,6 @@ function App() {
   const [fetchData, setFetchData] = useState('')
   const [reviewUpdate, setReviewUpdate] = useState('')
 
-  const handleBookChange = (event) => {
-    const name = event.target.name
-    setBookName(name)
-  }
-
-  const handleReviewChange = (event) => {
-    const review = event.target.review
-    setReview(review)
-  }
-
   useEffect(() => {
     axios.get('http://localhost:4005/get')
     .then((res) => {
@@ -26,9 +16,69 @@ function App() {
     })
   }, [])
 
+  const handleBookChange = (event) => {
+    // const name = event.target.name
+    // const input = {}
+    // input[event.target.id] = event.target.value;
+    setBookName(event.target.value)
+  }
+
+  const handleReviewChange = (event) => {
+    // const review = event.target.review
+    setReview(event.target.value)
+  }
+
+
+  const submit = () => {
+    axios({
+      url: 'http://localhost:4005/insert',
+      method: 'POST',
+      data: {bookName, review}
+    })
+    .then(() => {
+      alert('success post')
+      document.location.reload();
+    })
+    .catch((err) => console.log(err))
+
+  }
+
+  const deletePost = (id) => {
+    axios.delete(`http://localhost:4005/delete/${id}`).then(() => {
+      alert('success delete')
+    })
+    .catch((err) => console.log(err))
+    document.location.reload();
+  }
+
+  const edit = (id) => {
+    axios({
+      url: `http://localhost:4005/update/${id}`,
+      method: 'POST',
+      data: {reviewUpdate}
+    })
+    .then(() => {
+      alert('success edit')
+    })
+    .catch((err) => console.log(err))
+  }
+
+  
+  console.log(bookName, review)
+
   return (
     <div className="App">
-      
+      <h1>Dockerized Fullstack React Application</h1>
+          <div className='form'>
+              <input id='bookName' name='bookName' placeholder='Enter Book Name' onChange={handleBookChange} />
+              <input name='setReview' placeholder='Enter Review' onChange={handleReviewChange} />
+          </div>
+          <Button className='my-2' variant="primary" onClick={submit}>Submit</Button> <br /><br />
+          <Container>
+              <Row>
+                  {/* {card} */}
+              </Row>
+          </Container>
     </div>
   );
 }

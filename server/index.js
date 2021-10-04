@@ -3,10 +3,10 @@ const mysql = require('mysql2');
 const cors = require('cors');
 
 const db = mysql.createPool({
-    host: 'mysql_db', // the host name MYSQL_DATABASE: node_mysql
+    host: '127.0.0.1', // the host name MYSQL_DATABASE: node_mysql
     user: 'MYSQL_USER', // database user MYSQL_USER: MYSQL_USER
     password: 'MYSQL_PASSWORD', // database user password MYSQL_PASSWORD: MYSQL_PASSWORD
-    database: 'books' // database name MYSQL_HOST_IP: mysql_db
+    database: 'books_reviews' // database name MYSQL_HOST_IP: mysql_db
 })
 
 const app = express()
@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
 app.get('/', (req, res) => {
-  res.send('Hi There')
+  res.send('Welcome to SQL')
 });
 
 // get all of the books in the database
@@ -30,11 +30,15 @@ app.get('/get', (req, res) => {
 
 // add a book to the database
 app.post("/insert", (req, res) => {
-    const bookName = req.body.setBookName;
-    const bookReview = req.body.setReview;
-    const InsertQuery = "INSERT INTO books_reviews (book_name, book_review) VALUES (?, ?)";
-    db.query(InsertQuery, [bookName, bookReview], (err, result) => {
-      console.log(result)
+  console.log(req.body.bookName)
+  console.log(req.body.review)
+
+  const bookName = req.body.bookName;
+  const bookReview = req.body.review;
+  const InsertQuery = "INSERT INTO books_reviews (book_name, book_review) VALUES (?, ?)";
+      db.query(InsertQuery, [bookName, bookReview], (err, result) => {
+        console.log(result)
+        console.log(err)
     })
 })
 
